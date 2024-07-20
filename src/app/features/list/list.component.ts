@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-list',
@@ -8,5 +10,12 @@ import { Component } from '@angular/core';
   styleUrl: './list.component.scss'
 })
 export class ListComponent {
+  httpClient = inject(HttpClient);
+  products: any[] = [];
 
+  ngOnInit() {
+    this.httpClient.get<any>('/api/products').subscribe((products) => {
+      this.products = products;
+    });
+  }
 }
